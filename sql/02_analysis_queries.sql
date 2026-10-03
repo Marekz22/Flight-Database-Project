@@ -54,6 +54,40 @@ SELECT
     SUM(amount) AS total_revenue,
     ROUND(AVG(amount), 2) AS average_ticket_price,
     ROUND((SUM(amount) / SUM(SUM(amount)) OVER () * 100), 2) AS revenue_share_pct
-FROM bookings.ticket_flights
+FROM ticket_flights
 GROUP BY fare_conditions
 ORDER BY total_revenue DESC;
+
+-- ====================================================================
+-- Flight Occupancy (Load Factor) Analysis
+-- ====================================================================
+
+-- Calculate aircraft capacity, boarded passengers, and load factor percentage
+WITH airplane_capacity AS (
+    SELECT 
+        aircraft_code,
+        COUNT(*) AS total_seats
+    FROM bookings.seats
+    GROUP BY aircraft_code
+),
+flight_passengers AS (
+    SELECT 
+        flight_id,
+        COUNT(*) AS boarded_passengers
+    FROM bookings.boarding_passes
+    GROUP BY flight_id
+)
+SELECT 
+    f.flight_id,
+    f.flight_no,
+    ac.total_seats,
+    fp.boarded_passengers,
+    ROUND((fp.boarded_passengers::numeric / ac.total_seats::numeric) * 100, 2) AS load_factor_pct
+FROM flights f
+JOIN airplane_capacity ac 
+    ON f.aircraft_code = ac.aircraft_code
+JOIN flight_passengers fp 
+    ON f.flight_id = fp.flight_id
+WHERE f.status = 'Arrived'
+ORDER BY load_factor_pct DESC
+LIMIT 10;
