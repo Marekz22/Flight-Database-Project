@@ -23,3 +23,22 @@ FROM flights
 WHERE status = 'Arrived'
 GROUP BY departure_airport
 ORDER BY avg_delay_minutes DESC;
+
+-- Average departure delay by airport and city (arrived flights only)
+SELECT 
+    f.departure_airport,
+    a.city->>'en' AS city,
+    a.airport_name->>'en' AS airport_name,
+    COUNT(*) AS total_flights,
+    ROUND(
+        EXTRACT(EPOCH FROM AVG(f.actual_departure - f.scheduled_departure)) / 60,
+        2
+    ) AS avg_delay_minutes
+FROM flights f
+JOIN airports_data a ON f.departure_airport = a.airport_code
+WHERE f.status = 'Arrived'
+GROUP BY 
+    f.departure_airport,
+    a.city->>'en',
+    a.airport_name->>'en'
+ORDER BY avg_delay_minutes DESC;
