@@ -1,9 +1,9 @@
 # Flight-Database-Project
 A complete analytics project built on a relational airline booking database. The project includes SQL analysis, ERD diagram, documentation, and Power BI dashboard.
-##
+#
 
 
-# Project Structure
+## Project Structure
 ERD diagram (Entity Relationship Diagram)
 Table descriptions
 Relationship overview
@@ -12,7 +12,7 @@ Power BI dashboard
 Documentation
 #
 
-# ERD Diagram
+## ERD Diagram
 The ERD diagram is located in /docs/erd.png.
 It shows relationships between:
 bookings
@@ -25,24 +25,40 @@ seats
 boarding_passes
 #
 
-# Table Relationships (Technical Overview)
-- bookings → tickets  1:N   One booking can contain multiple tickets.
-- tickets → ticket_flights  1:N  One ticket can be used for multiple flights (connections).
-- flights → ticket_flights  1:N  One flight has multiple tickets.
-- flights → airports_data  1:N  Each flight has one departure and one arrival airport.
-- flights → aircrafts_data  1:N  One aircraft can operate multiple flights.
-- aircrafts_data → seats  1:N  One aircraft has multiple seats.
-- tickets → boarding_passes  1:N  One ticket can have multiple boarding passes.
-- flights → boarding_passes  1:N  One flight has multiple passengers.
+## Table Relationships (Technical Overview)
+
+- **bookings → tickets (1:N)**  
+  One booking can contain multiple tickets.
+
+- **tickets → ticket_flights (1:N)**  
+  One ticket can be used for multiple flights (connections).
+
+- **flights → ticket_flights (1:N)**  
+  One flight has multiple tickets.
+
+- **flights → airports_data (1:N)**  
+  Each flight has one departure airport and one arrival airport.
+
+- **flights → aircrafts_data (1:N)**  
+  One aircraft can operate multiple flights.
+
+- **aircrafts_data → seats (1:N)**  
+  One aircraft has multiple seats.
+
+- **tickets → boarding_passes (1:N)**  
+  One ticket can have multiple boarding passes.
+
+- **flights → boarding_passes (1:N)**  
+  One flight has multiple passengers.
 #
 
-# SQL Analysis
+## SQL Analysis
 SQL scripts are located in /sql/.
 01_data_quality_checks.sql
 02_analysis_queries.sql
 #
 
-# Power BI Dashboard
+## Power BI Dashboard
 The Power BI file dashboard.pbix is located in /powerbi/.
 Dashboard includes:
 revenue by flight
@@ -52,7 +68,7 @@ route popularity
 aircraft utilization
 #
 
-# Documentation
+## Documentation
 Located in /docs/:
 
 
