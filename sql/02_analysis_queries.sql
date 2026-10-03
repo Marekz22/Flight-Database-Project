@@ -47,12 +47,13 @@ ORDER BY avg_delay_minutes DESC;
 -- Revenue & Fare Class Analysis
 -- ====================================================================
 
--- Total revenue, ticket count, and average price by fare conditions
+-- Revenue and market share by fare class (using window functions)
 SELECT 
     fare_conditions,
     COUNT(*) AS total_tickets,
     SUM(amount) AS total_revenue,
-    ROUND(AVG(amount), 2) AS average_ticket_price
+    ROUND(AVG(amount), 2) AS average_ticket_price,
+    ROUND((SUM(amount) / SUM(SUM(amount)) OVER () * 100), 2) AS revenue_share_pct
 FROM bookings.ticket_flights
 GROUP BY fare_conditions
 ORDER BY total_revenue DESC;
