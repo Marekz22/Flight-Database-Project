@@ -34,3 +34,24 @@ JOIN bookings.airports_data dep
     ON f.departure_airport = dep.airport_code
 JOIN bookings.airports_data arr 
     ON f.arrival_airport = arr.airport_code;
+
+-- ====================================================================
+-- Analytical View: Flight Financials Summary
+-- ====================================================================
+
+CREATE OR REPLACE VIEW bookings.v_flight_financials AS
+SELECT 
+    flight_id,
+    COUNT(*) AS tickets_sold,
+    SUM(amount) AS total_revenue,
+    SUM(
+        CASE WHEN fare_conditions = 'Economy' THEN amount ELSE 0 END
+    ) AS economy_revenue,
+    SUM(
+        CASE WHEN fare_conditions = 'Business' THEN amount ELSE 0 END
+    ) AS business_revenue,
+    SUM(
+        CASE WHEN fare_conditions = 'Comfort' THEN amount ELSE 0 END
+    ) AS comfort_revenue
+FROM bookings.ticket_flights
+GROUP BY flight_id;
