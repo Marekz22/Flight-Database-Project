@@ -3,6 +3,13 @@
 -- ====================================================================
 
 CREATE OR REPLACE VIEW bookings.v_flight_analytics AS
+WITH airplane_capacity AS (
+    SELECT 
+        aircraft_code,
+        COUNT(*) AS total_seats
+    FROM bookings.seats
+    GROUP BY aircraft_code
+)
 SELECT 
     f.flight_id,
     f.flight_no,
@@ -26,14 +33,17 @@ SELECT
     dep.city->>'en' AS departure_city,
     f.arrival_airport,
     arr.airport_name->>'en' AS arrival_airport_name,
-    arr.city->>'en' AS arrival_city
+    arr.city->>'en' AS arrival_city,
+	ac.total_seats
 FROM bookings.flights f
 JOIN bookings.aircrafts_data ad 
     ON f.aircraft_code = ad.aircraft_code
 JOIN bookings.airports_data dep 
     ON f.departure_airport = dep.airport_code
 JOIN bookings.airports_data arr 
-    ON f.arrival_airport = arr.airport_code;
+    ON f.arrival_airport = arr.airport_code
+LEFT JOIN airplane_capacity ac
+	ON f.aircraft_code=ac.aircraft_code
 
 -- ====================================================================
 -- Analytical View: Flight Financials Summary
