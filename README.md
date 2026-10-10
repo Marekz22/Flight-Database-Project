@@ -86,6 +86,38 @@ The visual hierarchy, layout grid, and glassmorphism containers were prototyped 
 ### Tooltip Canvas Layout
 ![Figma Tooltip Layout](docs/figma_tooltip_layout.png)
 
+---
+
+<details>
+<summary><b> Click to view full DAX Measures Dictionary (20 measures)</b></summary>
+
+<br>
+
+| Measure Name | Description | Expression |
+| :--- | :--- | :--- |
+| **Total Flights** | Total count of scheduled and operated flight legs in the dataset. | `COUNTROWS('bookings v_flight_analytics')` |
+| **Total Revenue** | Aggregate ticket revenue across all fare classes (converted to EUR). | `SUM('bookings v_flight_financials'[total_revenue]) / 70` |
+| **Total Tickets Sold** | Total volume of passenger tickets sold across the network. | `SUM('bookings v_flight_financials'[tickets_sold])` |
+| **Avg Ticket Price** | Average yield / revenue generated per individual sold ticket. | `DIVIDE([Total Revenue], [Total Tickets Sold])` |
+| **Avg Departure Delay** | Mean departure delay across operations (in minutes). | `AVERAGE('bookings v_flight_analytics'[departure_delay_min])` |
+| **Delayed Flights** | Count of completed flights departing with a delay greater than 15 minutes. | `CALCULATE([Total Flights], 'bookings v_flight_analytics'[departure_delay_min] > 15, 'bookings v_flight_analytics'[status] = "Arrived")` |
+| **Delayed Flights %** | Share of arrived flights delayed by more than 15 minutes. | `DIVIDE([Delayed Flights], [Finished Flights])` |
+| **Cancelled Flights** | Total count of flights that were cancelled before departure. | `CALCULATE([Total Flights], 'bookings v_flight_analytics'[status] = "Cancelled")` |
+| **Cancelled Flights %** | Proportion of total network flights resulting in cancellation. | `DIVIDE([Cancelled Flights], [Total Flights])` |
+| **Finished Flights** | Total count of successfully completed flights (status 'Arrived'). | `CALCULATE([Total Flights], 'bookings v_flight_analytics'[status] = "Arrived")` |
+| **On-Time Flights** | Count of arrived flights departing within the industry standard 15-minute buffer. | `CALCULATE([Total Flights], 'bookings v_flight_analytics'[departure_delay_min] <= 15, 'bookings v_flight_analytics'[status] = "Arrived")` |
+| **On-Time %** | Operational punctuality rate (flights departing on schedule / total completed). | `DIVIDE([On-Time Flights], [Finished Flights])` |
+| **Economy Revenue** | Revenue contribution from Economy class cabin bookings (EUR). | `SUM('bookings v_flight_financials'[economy_revenue]) / 70` |
+| **Comfort Revenue** | Revenue contribution from Comfort / Premium Economy bookings (EUR). | `SUM('bookings v_flight_financials'[comfort_revenue]) / 70` |
+| **Business Revenue** | High-yield revenue contribution from Business class bookings (EUR). | `SUM('bookings v_flight_financials'[business_revenue]) / 70` |
+| **Avg Revenue per Flight** | Average commercial revenue generated per scheduled flight leg. | `DIVIDE([Total Revenue], [Total Flights])` |
+| **Total seats** | Total physical aircraft seating capacity across scheduled departures. | `SUM('bookings v_flight_analytics'[total_seats])` |
+| **Load Factor %** | Passenger capacity utilization rate on completed flights. | `CALCULATE(DIVIDE([Total Tickets Sold], [Total seats]), 'bookings v_flight_analytics'[status] = "Arrived")` |
+| **Avg Delay 10D Rolling** | 10-day moving average of departure delays to smooth operational volatility. | `CALCULATE([Avg Departure Delay], DATESINPERIOD(Dim_Date[Date], MAX(Dim_Date[Date]), -10, DAY))` |
+| **Revenue 10D Rolling** | 10-day moving average of daily revenue to detect commercial trends. | `AVERAGEX(DATESINPERIOD(Dim_Date[Date], MAX(Dim_Date[Date]), -10, DAY), [Total Revenue])` |
+
+</details>
+
 ## Documentation
 Located in /docs/:
 
