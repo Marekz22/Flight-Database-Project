@@ -1,5 +1,6 @@
 # Flight-Database-Project
 A complete analytics project built on a relational airline booking database. The project includes SQL analysis, ERD diagram, documentation, and Power BI dashboard.
+![Executive Dashboard Overview](docs/Executive%20Dashboard%20Overview.png)
 #
 
 
