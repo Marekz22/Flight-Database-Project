@@ -13,7 +13,7 @@ A complete analytics project built on a relational airline booking database. The
 #
 
 ## ERD Diagram
-The ERD diagram is located in /docs/erd.png.
+![Database ERD](docs/ERD.png)
 It shows relationships between:
 bookings
 tickets
