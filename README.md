@@ -66,6 +66,13 @@ seat occupancy
 flight delays
 route popularity
 aircraft utilization
+### Interactive Features & UI
+
+**Filter Panel (Bookmarks & Selection):**
+![Filter Panel](docs/filter_panel.png)
+
+**Dynamic Drilldown Tooltip:**
+![Daily Tooltip](docs/tooltip_drilldown.png)
 #
 
 ## Documentation
