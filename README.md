@@ -75,6 +75,12 @@ aircraft utilization
 ![Daily Tooltip](docs/tooltip_drilldown.png)
 #
 
+### UI/UX Architecture & Figma Layout
+To maintain visual balance, consistent contrast, and an intuitive cockpit layout, custom background containers were designed in **Figma** and imported as SVG/PNG canvas templates.
+
+* `docs/figma_dashboard_layout.png` — Main dashboard grid & container layout
+* `docs/figma_tooltip_layout.png` — Dynamic tooltip card template
+
 ## Documentation
 Located in /docs/:
 
