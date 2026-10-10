@@ -4,12 +4,12 @@ A complete analytics project built on a relational airline booking database. The
 
 
 ## Project Structure
-ERD diagram (Entity Relationship Diagram)
-Table descriptions
-Relationship overview
-SQL scripts (analysis, data quality checks)
-Power BI dashboard
-Documentation
+-ERD diagram (Entity Relationship Diagram)
+-Table descriptions
+-Relationship overview
+-SQL scripts (analysis, data quality checks)
+-Power BI dashboard
+-Documentation
 #
 
 ## ERD Diagram
